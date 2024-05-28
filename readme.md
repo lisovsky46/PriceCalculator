@@ -1,12 +1,14 @@
 for local start:
 
+cd to solution root directory
+
 dotnet restore "./PriceCalculator/PriceCalculator.csproj"
 dotnet build "./PriceCalculator/PriceCalculator.csproj" -c Release -o ./app/build
 dotnet publish "./PriceCalculator/PriceCalculator.csproj" -c Release -o ./app/publish /p:UseAppHost=false
 dotnet ./app/publish/PriceCalculator.dll
 
 to get response:
-for PS use:
+with PowerShell:
 
 $session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 Invoke-WebRequest -UseBasicParsing -Uri "http://localhost:5000/PriceCalculator" `
@@ -26,7 +28,7 @@ Invoke-WebRequest -UseBasicParsing -Uri "http://localhost:5000/PriceCalculator" 
 -ContentType "application/json" `
 -Body ([System.Text.Encoding]::UTF8.GetBytes("{$([char]10)  `"extraMargin`": true,$([char]10)  `"items`": [$([char]10)    {$([char]10)      `"itemName`": `"envelopes`",$([char]10)      `"itemPrice`": 520.00,$([char]10)      `"exempt`": false$([char]10)    },$([char]10)$([char]9){$([char]10)      `"itemName`": `"letterhead`",$([char]10)      `"itemPrice`": 1983.37,$([char]10)      `"exempt`": true$([char]10)    }$([char]9)$([char]10)  ]$([char]10)}"))
 
-for bash use:
+with bash
 
 curl 'http://localhost:5000/PriceCalculator' \
   -H 'accept: text/plain' \
